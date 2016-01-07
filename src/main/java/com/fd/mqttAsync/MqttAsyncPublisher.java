@@ -1,15 +1,17 @@
 package com.fd.mqttAsync;
 
 import org.eclipse.paho.client.mqttv3.*;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by qasim on 1/1/16.
  */
-public abstract class MqttAsyncPublisher {
+@Configuration
+public class MqttAsyncPublisher {
 
-    private static MqttAsyncClient mqttAsyncClient;
+    private MqttAsyncClient mqttAsyncClient;
 
-    public static void mqttAsyncClientPublisher(String serverUri, String clientId, String topic, int qos, String msg) throws MqttException {
+    public void mqttAsyncClientPublisher(String serverUri, String clientId, String topic, int qos, String msg) throws MqttException {
         mqttAsyncClient = new MqttAsyncClient(serverUri, clientId);
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setCleanSession(true);
@@ -35,7 +37,7 @@ public abstract class MqttAsyncPublisher {
         });
     }
 
-public static class ActionListener implements IMqttActionListener{
+public class ActionListener implements IMqttActionListener{
     @Override
     public void onSuccess(IMqttToken iMqttToken) {
         System.out.println("message published successfully");
